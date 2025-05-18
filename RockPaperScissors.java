@@ -11,11 +11,14 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 class RockPaperScissorsLizardSpock_GameStart{
-    private final int rock = 0;
-    private final int paper = 1;
-    private final int scissors = 2;
-    private final int lizard = 3;
-    private final int spock = 4;
+    private final int rockNumber = 0;
+    private final int paperNumber = 1;
+    private final int scissorsNumber = 2;
+    private final int lizardNumber = 3;
+    private final int spockNumber = 4;
+    private int yourChoice;
+    private int opponentChoice;
+    private JLabel opponentChoiceLabel;
     private int yourScore = 0;
     private int opponentScore = 0;
 
@@ -32,8 +35,16 @@ class RockPaperScissorsLizardSpock_GameStart{
     private JTextField opponentScoreField;
     private JLabel yourLabel;
     private JLabel opponentLabel;
-    
 
+    private void youWin(){
+        yourScore++;
+        yourScoreField.setText(Integer.toString(yourScore));
+    }
+
+    private void opponentWins(){
+        opponentScore++;
+        opponentScoreField.setText(Integer.toString(opponentScore));
+    }
 
     public RockPaperScissorsLizardSpock_GameStart(){
 
@@ -83,6 +94,10 @@ class RockPaperScissorsLizardSpock_GameStart{
             frame.repaint();
 
             directionField.setText("Let's Play! Make your choice!");
+            opponentChoiceLabel = new JLabel("");
+            opponentChoiceLabel.setBounds(225, 320, 300, 30);
+            opponentChoiceLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+            frame.add(opponentChoiceLabel);
 
             rockButton = new JButton("Rock");
             rockButton.setBounds(295, 150, 80, 80);
@@ -91,7 +106,7 @@ class RockPaperScissorsLizardSpock_GameStart{
 
             paperButton = new JButton("Paper");
             paperButton.setBounds(75, 300, 80, 80);
-            rockButton.setHorizontalAlignment(JButton.CENTER);
+            paperButton.setHorizontalAlignment(JButton.CENTER);
             frame.add(paperButton);
             
             scissorsButton = new JButton("Scissors");
@@ -135,12 +150,200 @@ class RockPaperScissorsLizardSpock_GameStart{
             opponentLabel.setFont(new Font("Arial", Font.PLAIN, 20));
             frame.add(opponentLabel);
 
+            runGame();
+        }
+
+        public void runGame(){
+
+            rockButton.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent x){
+                    yourChoice = rockNumber;
+                    calculateScore();
+                }
+            });
+
+            paperButton.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent x){
+                    yourChoice = paperNumber;
+                    calculateScore();
+                }
+            });
+
+            scissorsButton.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent x){
+                    yourChoice = scissorsNumber;
+                    calculateScore();
+                }
+            });
+
+            lizardButton.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent x){
+                    yourChoice = lizardNumber;
+                    calculateScore();
+                }
+            });
+
+            spockButton.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent x){
+                    yourChoice = spockNumber;
+                    calculateScore();
+                }
+            });
 
         }
 
-    
+        public void calculateScore(){
 
-    
+            Random random = new Random();
+            opponentChoice = random.nextInt(5);
+
+            switch (opponentChoice){
+
+                case rockNumber:
+                    opponentChoiceLabel.setText("Opponent Choice: Rock");
+                    break;
+                case paperNumber:
+                    opponentChoiceLabel.setText("Opponent Choice: Paper");
+                    break;
+                case scissorsNumber:
+                    opponentChoiceLabel.setText("Opponent Choice: Scissors");
+                    break;
+                case lizardNumber:
+                    opponentChoiceLabel.setText("Opponent Choice: Lizard");
+                    break;
+                case spockNumber:
+                    opponentChoiceLabel.setText("Opponent Choice: Spock");
+                    break;
+            }
+
+            switch (yourChoice){
+
+                case rockNumber:
+                    switch (opponentChoice){
+                        case rockNumber:
+                            directionField.setText("Tie!");
+                            break;
+                        case paperNumber:
+                            directionField.setText("Paper covers rock! Opponent wins!");
+                            opponentWins();
+                            break;
+                        case scissorsNumber:
+                            directionField.setText("Rock crushes scissors! You win!");
+                            youWin();
+                            break;
+                        case lizardNumber:
+                            directionField.setText("Rock crushes lizard! You win!");
+                            youWin();
+                            break;
+                        case spockNumber:
+                            directionField.setText("Spock vaporizes rock! Opponent wins!");
+                            opponentWins();
+                            break;
+                    }
+                    break;
+                
+                case paperNumber:
+                    switch (opponentChoice){
+                        case rockNumber:
+                            directionField.setText("Paper covers rock! You win!");
+                            youWin();
+                            break;
+                        case paperNumber:
+                            directionField.setText("Tie!");
+                            break;
+                        case scissorsNumber:
+                            directionField.setText("Scissors cuts paper! Opponent wins!");
+                            opponentWins();
+                            break;
+                        case lizardNumber:
+                            directionField.setText("Lizard eats paper! Opponent wins!");
+                            opponentWins();
+                            break;
+                        case spockNumber:
+                            directionField.setText("Paper disproves Spock! You win!");
+                            youWin();
+                            break;
+                    }
+                    break;
+
+                case scissorsNumber:
+                    switch (opponentChoice){
+                        case rockNumber:
+                            directionField.setText("Rock crushes scissors! Opponent wins!");
+                            opponentWins();
+                            break;
+                        case paperNumber:
+                            directionField.setText("Scissors cuts paper! You win!");
+                            youWin();
+                            break;
+                        case scissorsNumber:
+                            directionField.setText("Tie!");
+                            break;
+                        case lizardNumber:
+                            directionField.setText("Scissors decapitates lizard! You win!");
+                            youWin();
+                            break;
+                        case spockNumber:
+                            directionField.setText("Spock smashes scissors! Opponent wins!");
+                            opponentWins();
+                            break;
+                    }
+                    break;
+                
+                case lizardNumber:
+                    switch (opponentChoice){
+                        case rockNumber:
+                            directionField.setText("Rock crushes lizard! Opponent wins!");
+                            opponentWins();
+                            break;
+                        case paperNumber:
+                            directionField.setText("Lizard eats paper! You win!");
+                            youWin();
+                            break;
+                        case scissorsNumber:
+                            directionField.setText("Scissors decapitates lizard! Opponent wins!");
+                            opponentWins();
+                            break;
+                        case lizardNumber:
+                            directionField.setText("Tie!");
+                            break;
+                        case spockNumber:
+                            directionField.setText("Lizard poisons Spock! You win!");
+                            youWin();
+                            break;
+                    }
+                    break;
+
+                case spockNumber:
+                    switch (opponentChoice){
+                        case rockNumber:
+                            directionField.setText("Spock vaporizes rock! You win!");
+                            youWin();
+                            break;
+                        case paperNumber:
+                            directionField.setText("Paper disproves Spock! Opponent wins!");
+                            opponentWins();
+                            break;
+                        case scissorsNumber:
+                            directionField.setText("Spock smashes scissors! You win!");
+                            youWin();
+                            break;
+                        case lizardNumber:
+                            directionField.setText("Lizard poisons Spock! Opponent wins!");
+                            opponentWins();
+                            break;
+                        case spockNumber:
+                            directionField.setText("Tie!");
+                            break;
+                    }
+                    break;
+            }
+        }
 }
 
 
